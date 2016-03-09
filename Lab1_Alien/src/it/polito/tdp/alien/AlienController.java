@@ -29,6 +29,9 @@ public class AlienController {
     private Button btnTranslate;
     @FXML
     private Button btnReset;
+    
+    private String parolaAliena;
+    private AlienDictionary dizionario;
         
     
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -37,12 +40,26 @@ public class AlienController {
     	assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Alien.fxml'.";
     	assert btnTranslate != null : "fx:id=\"bntTranslate\" was not injected: check your FXML file 'Alien.fxml'.";
     	assert btnReset != null : "fx:id=\"btnReset\" was not injected: check your FXML file 'Alien.fxml'.";
-    	
+    	dizionario= new AlienDictionary();
     }
   
     
     @FXML
     void doTranslate(ActionEvent event) {
+    	txtResult.setText("");
+    	
+    	parolaAliena= txtWord.getText().toLowerCase();
+    	if(parolaAliena.contains(" ")){
+    		int i= parolaAliena.indexOf(" ");
+    		dizionario.addWord(parolaAliena.substring(0, i), parolaAliena.substring(i));
+    		txtResult.setText(String.format("Aggiunta la parola %s con traduzione %s.", parolaAliena.substring(0, i),parolaAliena.substring(i)));
+    	}
+    	else{if(dizionario.translateWord(parolaAliena)!=null)
+    		txtResult.setText(""+dizionario.translateWord(parolaAliena));
+    	else txtResult.setText("Parola non presente nel dizionario");
+    		
+    	}
+    	
     	    	
     }
     
@@ -50,6 +67,9 @@ public class AlienController {
     @FXML
     void doReset(ActionEvent event) {
 
+    	txtResult.setText("");
+    	dizionario.rimuoviTutto();
+    	
     }
     
 }
