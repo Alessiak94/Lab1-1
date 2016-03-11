@@ -51,10 +51,18 @@ public class AlienController {
     	parolaAliena= txtWord.getText().toLowerCase();
     	if(parolaAliena.contains(" ")){
     		int i= parolaAliena.indexOf(" ");
-    		dizionario.addWord(parolaAliena.substring(0, i), parolaAliena.substring(i));
-    		txtResult.setText(String.format("Aggiunta la parola %s con traduzione %s.", parolaAliena.substring(0, i),parolaAliena.substring(i)));
+    		dizionario.addWord(parolaAliena.substring(0, i), parolaAliena.substring(i+1));
+    		txtResult.setText(String.format("Aggiunta la parola %s con traduzione %s.", parolaAliena.substring(0, i),parolaAliena.substring(i+1)));
     	}
-    	else{if(dizionario.translateWord(parolaAliena)!=null)
+    	else if(parolaAliena.contains("?")){
+    		String tot="";
+    		for(int i=0;i<dizionario.cercaParola(parolaAliena).size();i++)
+    			tot+=dizionario.cercaParola(parolaAliena).get(i)+"\n";
+    		if(tot.compareTo("")==0)
+    			txtResult.setText("Nessuna Corrispondenza");
+    		else
+    		txtResult.setText(""+tot);}
+    	else{if(dizionario.translateWord(parolaAliena).compareTo("")!=0)
     		txtResult.setText(""+dizionario.translateWord(parolaAliena));
     	else txtResult.setText("Parola non presente nel dizionario");
     		
